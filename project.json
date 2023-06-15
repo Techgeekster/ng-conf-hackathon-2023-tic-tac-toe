@@ -2,7 +2,7 @@
   "name": "ng-conf-hackathon2023-tic-tac-toe",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "ng-conf-hackathon2023-tic-tac-toe",
+  "prefix": "ttt",
   "sourceRoot": "./src",
   "tags": [],
   "targets": {
