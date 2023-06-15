@@ -1,3 +1,3 @@
 export const environment = {
-  OPEN_API_KEY: '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',
+  OPEN_API_KEY: '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',
 };

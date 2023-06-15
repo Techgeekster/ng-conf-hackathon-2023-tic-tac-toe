@@ -35,7 +35,7 @@ export class GameLayoutComponent {
     if (!this.userInitialInput) {
       this.userInitialInput = userEntry;
       this.openAIService.getDataFromOpenAI(this.triggerText);
-    } else {
+    } else if (this.takenPositions.length < 9) {
       this.openAIService.getDataFromOpenAI(
         `Pick a number between 1 and 9 except for ${this.takenPositions().join(
           ', '
