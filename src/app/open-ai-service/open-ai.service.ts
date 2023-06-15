@@ -10,6 +10,8 @@ export class OpenAIService {
   private _openAIResponse = signal('');
   public openAIResponse = this._openAIResponse.asReadonly();
 
+  public takenResponses = signal<number[]>([]);
+
   readonly configuration = new Configuration({
     apiKey: environment.OPEN_API_KEY,
   });
@@ -35,6 +37,7 @@ export class OpenAIService {
       )
       .subscribe((data) => {
         this._openAIResponse.set(data);
+        this.takenResponses.set([...this.takenResponses(), +data]);
       });
   }
 }
