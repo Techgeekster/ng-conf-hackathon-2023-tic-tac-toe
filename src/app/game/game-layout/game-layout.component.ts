@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  Signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenAIService } from 'src/app/open-ai-service/open-ai.service';
 import { GameboardComponent } from '../gameboard/gameboard.component';
@@ -13,6 +18,8 @@ import { GameboardComponent } from '../gameboard/gameboard.component';
 })
 export class GameLayoutComponent {
   public openAIResponse: Signal<string>;
+  public computerResponse = computed(() => +this.openAIResponse());
+
   public userInitialInput = 5;
   private triggerText = `Pick a number between 1 and 9. Only use numbers.`;
   private takenPositions: number[] = [];
@@ -21,9 +28,9 @@ export class GameLayoutComponent {
     this.openAIResponse = this.openAIService.openAIResponse;
   }
 
-  public setEntry(entry: number): void {
+  public setEntry(userEntry: number): void {
     if (!this.userInitialInput) {
-      this.userInitialInput = entry;
+      this.userInitialInput = userEntry;
       this.openAIService.getDataFromOpenAI(this.triggerText);
     } else {
       this.openAIService.getDataFromOpenAI(
@@ -33,6 +40,6 @@ export class GameLayoutComponent {
       );
     }
 
-    this.takenPositions.push(entry);
+    this.takenPositions.push(userEntry);
   }
 }
