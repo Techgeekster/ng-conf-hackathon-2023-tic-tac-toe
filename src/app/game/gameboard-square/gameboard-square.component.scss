@@ -1,0 +1,33 @@
+$border: 5px solid black;
+$square-size: 200px;
+
+:host {
+    width: $square-size;
+    height: $square-size;
+}
+
+div {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 80px;
+}
+
+.left {
+    border-left: $border;
+}
+
+.top {
+    border-top: $border;
+}
+
+.right {
+    border-right: $border;
+}
+
+.bottom {
+    border-bottom: $border;
+}
