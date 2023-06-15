@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { NavigationComponent } from './navigation/navigation.component';
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
-  selector: 'ng-conf-hackathon2023-tic-tac-toe-root',
+  imports: [RouterModule, NavigationComponent],
+  selector: 'ttt-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
