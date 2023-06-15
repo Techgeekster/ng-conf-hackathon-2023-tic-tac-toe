@@ -1,1 +1,5 @@
-<ttt-gameboard [computerResponse]="computerResponse"> </ttt-gameboard>
+<ttt-gameboard
+  [computerResponse]="computerResponse()"
+  (squareClicked)="setEntry($event)"
+>
+</ttt-gameboard>
