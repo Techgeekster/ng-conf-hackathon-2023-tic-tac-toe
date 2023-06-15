@@ -7,6 +7,7 @@ import { filter, from, map, take } from 'rxjs';
   providedIn: 'root',
 })
 export class OpenAIService {
+  private conversationId = '';
   private _openAIResponse = signal('');
   public openAIResponse = this._openAIResponse.asReadonly();
 
@@ -35,6 +36,38 @@ export class OpenAIService {
       )
       .subscribe((data) => {
         this._openAIResponse.set(data);
+        this.conversationId = data.choices[0].context?.match(
+          /conversation_id: (\w+)/
+        )?.[1];
+      });
+  }
+
+  continueGame(prompt: string): void {
+    from(
+      this.openai.createCompletion({
+        model: 'text-davinci-003',
+        prompt: {
+          text: prompt,
+          context: `conversation_id: ${this.conversationId}`,
+        },
+        max_tokens: 256,
+      })
+    )
+      .pipe(
+        take(1),
+        filter((response) => !!response && !!response.data),
+        map((response) => response.data),
+        filter(
+          (data: any) =>
+            data.choices && data.choices.length > 0 && data.choices[0].text
+        ),
+        map((data) => data.choices[0].text)
+      )
+      .subscribe((data) => {
+        this._openAIResponse.set(data);
+        this.conversationId = data.choices[0].context?.match(
+          /conversation_id: (\w+)/
+        )?.[1];
       });
   }
 }
