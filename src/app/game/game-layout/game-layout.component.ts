@@ -14,7 +14,8 @@ import { GameboardComponent } from '../gameboard/gameboard.component';
 export class GameLayoutComponent {
   public openAIResponse: Signal<string>;
   public userInitialInput = 5;
-  private triggerText = `Start a game of tic tac toe with me. Positions on the board are numbered 1-9, left to right, top to bottom. I am named User and you are named Computer. I will go first. I pick ${this.userInitialInput}. Only use numbers.`;
+  private triggerText = `Pick a number between 1 and 9. Only use numbers.`;
+  private takenPositions: number[] = [];
 
   constructor(private openAIService: OpenAIService) {
     this.openAIResponse = this.openAIService.openAIResponse;
@@ -26,8 +27,12 @@ export class GameLayoutComponent {
       this.openAIService.getDataFromOpenAI(this.triggerText);
     } else {
       this.openAIService.getDataFromOpenAI(
-        `User move is ${entry}. What is your next move? Only use numbers.`
+        `Pick a number between 1 and 9 except for ${this.takenPositions.join(
+          ', '
+        )}. Only use numbers.`
       );
     }
+
+    this.takenPositions.push(entry);
   }
 }
