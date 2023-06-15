@@ -1,0 +1,7 @@
+$square-size: 200px;
+
+div {
+    display: grid;
+    grid-template-columns: repeat(3, $square-size);
+    grid-template-rows: repeat(3, $square-size);
+}

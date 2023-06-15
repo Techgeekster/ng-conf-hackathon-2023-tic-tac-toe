@@ -1,0 +1,8 @@
+<div>
+    <ttt-gameboard-square
+        *ngFor="let coord of coords"
+        [x]="coord[0]"
+        [y]="coord[1]"
+        (clicked)="onSquareClick($event)">
+    </ttt-gameboard-square>
+</div>

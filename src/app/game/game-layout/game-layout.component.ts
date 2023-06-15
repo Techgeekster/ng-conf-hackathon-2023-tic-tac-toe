@@ -6,11 +6,12 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenAIService } from 'src/app/open-ai-service/open-ai.service';
+import { GameboardComponent } from '../gameboard/gameboard.component';
 
 @Component({
   selector: 'ttt-game-layout',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, GameboardComponent],
   templateUrl: './game-layout.component.html',
   styleUrls: ['./game-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
