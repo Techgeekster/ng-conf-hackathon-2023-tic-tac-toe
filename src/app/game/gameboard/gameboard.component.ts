@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  computed,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -31,9 +32,23 @@ export class GameboardComponent {
 
   currentTurn = signal<'X' | 'Y'>('X');
 
+  // gameOver = computed(() => )
+
   @Input()
   set computerResponse(value: number) {
-    // this.squares.update(currentValue => )
+    this.squares.update((currentValue) =>
+      currentValue.map((square, index) => {
+        if (index === value - 1) {
+          return {
+            ...square,
+            value: 'O',
+          };
+        }
+
+        return square;
+      })
+    );
+
     this.computerResponded.emit(value);
   }
 
@@ -44,10 +59,21 @@ export class GameboardComponent {
   computerResponded = new EventEmitter<number>();
 
   onSquareClick(squareCoords: [number, number]): void {
-    const index = squareCoords[1] * 3 + squareCoords[0];
-    this.squareClicked.emit(+1);
+    const currentIndex = squareCoords[1] * 3 + squareCoords[0];
+    this.squareClicked.emit(currentIndex + 1);
 
-    // this.squares.update((currentValue) => currentValue.map());
+    this.squares.update((currentValue) =>
+      currentValue.map((square, index) => {
+        if (index === currentIndex) {
+          return {
+            ...square,
+            value: 'X',
+          };
+        }
+
+        return square;
+      })
+    );
   }
 
   defaultValue(): SquareData[] {

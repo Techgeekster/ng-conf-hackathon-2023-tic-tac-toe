@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-export type SquareValue = '' | 'X' | 'Y';
+export type SquareValue = '' | 'X' | 'O';
 
 @Component({
   selector: 'ttt-gameboard-square',
