@@ -15,7 +15,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "ngConfHackathon2023TicTacToe",
+            "prefix": "ttt",
             "style": "camelCase"
           }
         ],
@@ -23,7 +23,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "ng-conf-hackathon2023-tic-tac-toe",
+            "prefix": "ttt",
             "style": "kebab-case"
           }
         ]

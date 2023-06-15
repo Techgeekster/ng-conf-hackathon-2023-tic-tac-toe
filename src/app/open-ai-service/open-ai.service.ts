@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Configuration, OpenAIApi } from 'openai';
 import { environment } from 'src/environment/environment';
-import { filter, from, map } from 'rxjs';
+import { filter, from, map, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OpenAIService {
-  constructor() {
-    /**/
-  }
+  private _openAIResponse = signal('');
+  public openAIResponse = this._openAIResponse.asReadonly();
 
   readonly configuration = new Configuration({
-    apiKey: environment.openAIToken,
+    apiKey: environment.OPEN_API_KEY,
   });
-  readonly openai = new OpenAIApi(this.configuration);
+  readonly openai: OpenAIApi = new OpenAIApi(this.configuration);
 
-  async getDataFromOpenAI(text: string) {
+  getDataFromOpenAI(text: string): void {
     from(
       this.openai.createCompletion({
         model: 'text-davinci-003',
@@ -25,6 +24,7 @@ export class OpenAIService {
       })
     )
       .pipe(
+        take(1),
         filter((response) => !!response && !!response.data),
         map((response) => response.data),
         filter(
@@ -34,7 +34,7 @@ export class OpenAIService {
         map((data) => data.choices[0].text)
       )
       .subscribe((data) => {
-        console.log(data);
+        this._openAIResponse.set(data);
       });
   }
 }
