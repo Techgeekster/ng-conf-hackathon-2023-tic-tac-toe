@@ -1,6 +1,22 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameboardSquareComponent } from '../gameboard-square/gameboard-square.component';
+import {
+  GameboardSquareComponent,
+  SquareValue,
+} from '../gameboard-square/gameboard-square.component';
+
+interface SquareData {
+  x: number;
+  y: number;
+  value: SquareValue;
+}
 
 @Component({
   selector: 'ttt-gameboard',
@@ -11,13 +27,36 @@ import { GameboardSquareComponent } from '../gameboard-square/gameboard-square.c
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameboardComponent {
-  readonly coords = Array(9)
-    .fill(0)
-    .map((_value, index) => {
-      return [index % 3, Math.floor(index / 3)];
-    });
+  squares = signal<SquareData[]>(this.defaultValue());
 
   currentTurn = signal<'X' | 'Y'>('X');
 
-  onSquareClick(squareCoords: [number, number]): void {}
+  @Input()
+  set computerResponse(value: number) {
+    // this.squares.update(currentValue => )
+    this.computerResponded.emit(value);
+  }
+
+  @Output()
+  squareClicked = new EventEmitter<number>();
+
+  @Output()
+  computerResponded = new EventEmitter<number>();
+
+  onSquareClick(squareCoords: [number, number]): void {
+    const index = squareCoords[1] * 3 + squareCoords[0];
+    this.squareClicked.emit(+1);
+
+    // this.squares.update((currentValue) => currentValue.map());
+  }
+
+  defaultValue(): SquareData[] {
+    return Array(9)
+      .fill('')
+      .map((value, index) => ({
+        x: index % 3,
+        y: Math.floor(index / 3),
+        value,
+      }));
+  }
 }
